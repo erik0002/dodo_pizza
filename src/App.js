@@ -5,9 +5,35 @@ import axios from "axios";
 import {Header} from "./components";
 import {Main, Basket} from "./pages";
 import {Route} from "react-router-dom";
-import {connect} from 'react-redux';
+import {useDispatch} from "react-redux";
+// import {connect} from 'react-redux';
 import {setPizzas} from "./redux/actions/pizzas";
-//import pizzas from "./redux/reducers/pizzas";
+
+
+function App(){
+
+    const dispatch = useDispatch();
+
+
+    React.useEffect(() => {
+        axios.get('http://localhost:3001/pizzas?_order=asc&_sort=price').then(({ data }) => {
+            dispatch(setPizzas(data));
+        })
+    }, []);
+
+    return (
+        <div className="wrapper">
+            <Header/>
+            <div className="content">
+                <Route path="/" component={Main} exact/>
+                <Route path="/basket" component={Basket} exact/>
+            </div>
+        </div>
+    )
+}
+
+export default App;
+
 
 // function App() {
 //
@@ -26,32 +52,32 @@ import {setPizzas} from "./redux/actions/pizzas";
 //   return ;
 // }
 
-class App extends React.Component{
-    componentDidMount() {
-        axios.get('http://localhost:3000/db.json').then(({data}) => {
-            this.props.setPizzas(data.pizzas);
-        })
-    }
+// class App extends React.Component{
+//     componentDidMount() {
+//         axios.get('http://localhost:3000/db.json').then(({data}) => {
+//             this.props.setPizzas(data.pizzas);
+//         })
+//     }
+//
+//     render () {
+//         return (
+//             <div className="wrapper">
+//                 <Header/>
+//                 <div className="content">
+//                     <Route path="/" render={() => <Main items={this.props.items}/>} exact/>
+//                     <Route path="/basket" component={Basket} exact/>
+//                 </div>
+//             </div>
+//         )
+//     }
+// }
 
-    render () {
-        return (
-            <div className="wrapper">
-                <Header/>
-                <div className="content">
-                    <Route path="/" render={() => <Main items={this.props.items}/>} exact/>
-                    <Route path="/basket" component={Basket} exact/>
-                </div>
-            </div>
-        )
-    }
-}
-
-const mapStateToProps = state => {
-    return {
-        items: state.pizzas.items,
-        filters: state.filters
-    }
-}
+// const mapStateToProps = state => {
+//     return {
+//         items: state.pizzas.items,
+//         filters: state.filters
+//     }
+// }
 
 // const mapDispatchToProps = dispatch => {
 //     return {
@@ -60,8 +86,8 @@ const mapStateToProps = state => {
 // }
 // один из вариантов записи mapDispatchToProps
 
-const mapDispatchToProps = {
-    setPizzas
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+// const mapDispatchToProps = {
+//     setPizzas
+// }
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(App);
