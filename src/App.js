@@ -3,19 +3,12 @@ import './App.css';
 import {Header} from "./components";
 import {Main, Basket} from "./pages";
 import {Route} from "react-router-dom";
-import {useDispatch} from "react-redux";
+//import {useDispatch} from "react-redux";
 // import {connect} from 'react-redux';
-import {fetchPizzas} from "./redux/actions/pizzas";
+//import {fetchPizzas} from "./redux/actions/pizzas";
 
 
 function App(){
-    const dispatch = useDispatch();
-
-
-    React.useEffect(() => {
-        dispatch(fetchPizzas());
-    }, []);
-
     return (
         <div className="wrapper">
             <Header/>

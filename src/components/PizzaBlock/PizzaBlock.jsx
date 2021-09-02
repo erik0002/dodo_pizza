@@ -1,9 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+//import PizzaHolderBlock from "./PizzaLoadingBlock";
 
 
 const PizzaBlock = ({imageUrl, name, price, types, sizes}) => {
+
     const availableTypes = ['тонкое', 'традиционное'];
     const availableSizes = [26, 30, 40];
     const [activeType, setActiveType] = React.useState(types[0]);
