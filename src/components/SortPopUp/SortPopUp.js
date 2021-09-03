@@ -1,11 +1,12 @@
 import React from 'react'
+import PropTypes from "prop-types";
+//import Categories from "../categories/Categories";
 
 const SortPopUp = React.memo(
-    function SortPopUp({items}){
+    function SortPopUp({ items, onClickSortType, activeSortType }){
 
         const [visiblePopup, setVisiblePopup] = React.useState(false);
-        const [activeItem, setActiveItem] = React.useState(0);
-        const activeLabel = items[activeItem].name;
+        const activeLabel = items.find(obj => obj.type === activeSortType).name;
 
         const sortRef = React.useRef(null);
 
@@ -13,14 +14,15 @@ const SortPopUp = React.memo(
             setVisiblePopup(!visiblePopup);
         }
 
-        const handleOutsideClick = (e) => {
-            if (!e.path.includes(sortRef.current)) {
+        const handleOutsideClick = (event) => {
+            const path = event.path || (event.composedPath && event.composedPath());
+            if (!path.includes(sortRef.current)) {
                 setVisiblePopup(false);
             }
         };
 
         const onSelectItem = (index) => {
-            setActiveItem(index);
+            onClickSortType(index);
             setVisiblePopup(false);
         };
 
@@ -56,8 +58,8 @@ const SortPopUp = React.memo(
                             { items &&
                             items.map((obj, index) => (
                                 <li
-                                    onClick={() => onSelectItem(index)}
-                                    className={activeItem === index ? 'active' : ''}
+                                    onClick={() => onSelectItem(obj)}
+                                    className={activeSortType === obj.type ? 'active' : ''}
                                     key={`${obj.type}_${index}`}>
                                     {obj.name}
                                 </li>
@@ -69,5 +71,16 @@ const SortPopUp = React.memo(
         )
     }
 )
+
+SortPopUp.propTypes = {
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onClickSortType: PropTypes.func.isRequired,
+    activeSortType: PropTypes.string.isRequired,
+};
+
+SortPopUp.defaultProps = {
+    items: [],
+
+}
 
 export default SortPopUp;
