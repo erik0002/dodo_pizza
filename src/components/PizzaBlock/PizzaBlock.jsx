@@ -5,7 +5,7 @@ import {Button} from "../index";
 //import PizzaHolderBlock from "./PizzaLoadingBlock";
 
 
-const PizzaBlock = ({id, imageUrl, name, price, types, sizes, onClickAddPizza}) => {
+const PizzaBlock = ({id, imageUrl, name, price, types, sizes, onClickAddPizza, addedBasket}) => {
 
     const availableTypes = ['тонкое', 'традиционное'];
     const availableSizes = [26, 30, 40];
@@ -90,7 +90,7 @@ const PizzaBlock = ({id, imageUrl, name, price, types, sizes, onClickAddPizza}) 
                         />
                     </svg>
                     <span>Добавить</span>
-                    <i>2</i>
+                    { addedBasket && <i>{addedBasket}</i>}
                 </Button>
             </div>
         </div>
@@ -103,7 +103,8 @@ PizzaBlock.propTypes = {
     price: PropTypes.number,
     types: PropTypes.arrayOf(PropTypes.number).isRequired,
     sizes: PropTypes.arrayOf(PropTypes.number).isRequired,
-    onAddPizza: PropTypes.func
+    onAddPizza: PropTypes.func,
+    addedBasket: PropTypes.number,
 };
 
 PizzaBlock.defaultProps = {

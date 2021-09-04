@@ -16,6 +16,7 @@ const SortItems = [
 const Main = () => {
     const dispatch = useDispatch();
     const items = useSelector(({pizzas}) => pizzas.items);
+    const basketItems = useSelector(({basket}) => basket.items);
     const isLoaded = useSelector(({pizzas}) => pizzas.isLoaded);
     const { category, sortBy} = useSelector(({filters}) => filters);
 
@@ -52,7 +53,11 @@ const Main = () => {
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
                 { isLoaded
-                    ? items.map((obj) => <PizzaBlock onClickAddPizza={handleAddPizzaToBasket} key={obj.id} {...obj}/>)
+                    ? items.map((obj) => <PizzaBlock
+                        onClickAddPizza={handleAddPizzaToBasket}
+                        key={obj.id}
+                        addedBasket={basketItems[obj.id] && basketItems[obj.id].length}
+                        {...obj}/>)
                     : Array(10)
                         .fill(0)
                         .map((_, index) => (<PizzaHolderBlock key={index}/>))}
