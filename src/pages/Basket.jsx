@@ -1,9 +1,10 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import {BasketItem} from "../components";
-import {clearBasket} from "../redux/actions/basket";
+import {BasketItem, Button} from "../components";
+import {clearBasket, removeBasketItem, plusBasketItem, minusBasketItem} from "../redux/actions/basket";
 import {EmptyBasket} from "./index";
+import {Link} from "react-router-dom";
 
 function Basket () {
    const dispatch = useDispatch()
@@ -17,6 +18,24 @@ function Basket () {
        if (window.confirm('Вы действительно хотите очистить карзину?')){
            dispatch(clearBasket());
        }
+   }
+
+   const onRemoveItem = (id) => {
+       if (window.confirm('Вы действительно хотите удалить?')){
+           dispatch(removeBasketItem(id));
+       }
+   }
+
+   const onPlusItem = (id) => {
+       dispatch(plusBasketItem(id));
+   }
+
+   const onMinusItem = (id) => {
+       dispatch(minusBasketItem(id));
+   }
+
+   const onClickOrder = () => {
+       console.log('Ваш заказ', items);
    }
 
         return (
@@ -60,11 +79,16 @@ function Basket () {
                             <div className="content__items">
                                 {
                                     addedPizzas.map(obj => <BasketItem
+                                        key={obj.id}
+                                        id={obj.id}
                                         name={obj.name}
                                         type={obj.type}
                                         size={obj.size}
                                         totalPrice={items[obj.id].totalPrice}
                                         totalCount={items[obj.id].items.length}
+                                        onRemove={onRemoveItem}
+                                        onMinus={onMinusItem}
+                                        onPlus={onPlusItem}
                                     />)
                                 }
                                 {/*<BasketItem name="Сырная" type="тонкое" size={40}/>*/}
@@ -82,11 +106,13 @@ function Basket () {
                                                   strokeLinecap="round" strokeLinejoin="round"/>
                                         </svg>
 
-                                        <span>Вернуться назад</span>
+                                        <Link to="/">
+                                            <span>Вернуться назад</span>
+                                        </Link>
                                     </a>
-                                    <div className="button pay-btn">
+                                    <Button onClick={onClickOrder} className="pay-btn">
                                         <span>Оплатить сейчас</span>
-                                    </div>
+                                    </Button>
                                 </div>
                             </div>
                         </div>
