@@ -51,6 +51,8 @@ const basket = (state = initialState, action) => {
                 totalCount: allPizzas.length,
                 totalPrice: totalPizzasPrice
             };
+        case 'CLEAR_BASKET':
+            return {items: {}, totalPrice: 0, totalCount: 0}
         default:
             return state;
     }
