@@ -56,7 +56,7 @@ const Main = () => {
                     ? items.map((obj) => <PizzaBlock
                         onClickAddPizza={handleAddPizzaToBasket}
                         key={obj.id}
-                        addedBasket={basketItems[obj.id] && basketItems[obj.id].length}
+                        addedBasket={basketItems[obj.id] && basketItems[obj.id].items.length}
                         {...obj}/>)
                     : Array(10)
                         .fill(0)
